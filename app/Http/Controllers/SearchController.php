@@ -31,7 +31,7 @@ class SearchController extends Controller {
 	 */
 	public function index()
 	{
-		$searches = Auth::user()->searches()->get();
+		$searches = Auth::user()->searches()->orderBy('created_at', 'desc')->get();
 
 		return View::make('search.index', compact('searches'));
 	}
@@ -59,6 +59,8 @@ class SearchController extends Controller {
 		Auth::user()->searches()->save($search);
 
 		Queue::push(new RunSearch($search->id));
+
+		Session::flash('success', 'Created search '.$search->title);
 
 		return Redirect::route('searches.index');
 	}
