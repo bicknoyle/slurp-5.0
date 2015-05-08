@@ -66,14 +66,17 @@ class RunSearch extends Command implements SelfHandling {
 
 		$request->getQuery()
 			->set('q', $search->terms)
-			->set('count', 100)
 			->set('since_id', $since_id)
 			->set('include_entities', 1)
 		;
 
 		// if since_id is zero, this is a first-time run.
 		if(0 == $since_id) {
-			// nothing here now, see below
+			// limit first-timers to 25 results
+			$request->getQuery()->set('count', 25);
+		}
+		else {
+			$request->getQuery()->set('count', 100);
 		}
 
 		do {
