@@ -15,7 +15,20 @@
 		</div>
 	</div>
 	@else
-	<h2>Searches</h2>
+
+	<h2>Create Search</h2>
+	{!! Form::open(['route' => 'searches.store', 'class' => 'form-inline']) !!}
+		<div class="form-group">
+			{!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Search title']) !!}
+		</div>
+		<div class="form-group">
+			{!! Form::text('terms', null, ['class' => 'form-control', 'placeholder' => 'Search query']) !!}
+		</div>
+
+		<button type="submit" class="btn btn-primary">Create Search</button>
+	{!! Form::close() !!}
+
+	<h2>Current Searches</h2>
 	@forelse($searches as $search)
 		<div class="panel panel-default">
 			<div class="panel-heading">{{ $search->title }}</div>
@@ -48,6 +61,5 @@
 		<p>No searches yet!</p>
 	@endforelse
 
-	<p><a href="{{ route('searches.create') }}">Create New Search...</a></p>
 	@endif
 @stop
