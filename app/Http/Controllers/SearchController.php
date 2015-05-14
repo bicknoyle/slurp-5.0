@@ -165,7 +165,7 @@ class SearchController extends Controller {
 			$FH = fopen('php://output', 'w');
 
 			// print header
-			fputcsv($FH, ['id', 'user_id', 'screen_name', 'text', 'created_at']);
+			fputcsv($FH, ['id', 'user_id', 'screen_name', 'text', 'created_at', 'permalink']);
 
 			// print rows
 			foreach ($results as $result) {
@@ -174,7 +174,8 @@ class SearchController extends Controller {
 					$result->message_user_id,
 					$result->message_screen_name,
 					$result->message_text,
-					$result->message_created_at
+					$result->message_created_at,
+					'https://www.twitter.com/'.$result->message_screen_name.'/status/'.$result->message_id,
 				]);
 			}
 			fclose($FH);
