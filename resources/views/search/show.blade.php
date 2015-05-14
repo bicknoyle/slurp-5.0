@@ -6,16 +6,16 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Are you sure?</h4>
+				<h4 class="modal-title">Confirm Action</h4>
 			</div>
 			<div class="modal-body">
-				You about to delete the search, homie
+				You are about to permanantly delete this search and all saved results. Are you sure?
 			</div>
 			<div class="modal-footer">
 				{!! Form::open(['route' => ['searches.destroy', $search->id], 'method' => 'delete', 'style' => 'display:inline;']) !!}
-					<button type="submit" class="btn btn-danger">Delete</button>
+					<button type="submit" class="btn btn-danger">Yes, delete</button>
 				{!! Form::close() !!}
-				<button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+				<button type="button" data-dismiss="modal" class="btn btn-default">No, cancel</button>
 			</div>
 		</div>
 	</div>
@@ -60,7 +60,7 @@
 	</div>
 	<div class="panel-footer">
 		<div class="text-right">
-			<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#confirm-delete" title="Delete search...">
+			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" title="Delete search...">
 				<span class="sr-only">Delete Search</span>
 				<i class="fa fa-trash-o fa-lg"></i>
 			</button>
