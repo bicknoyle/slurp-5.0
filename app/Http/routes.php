@@ -25,5 +25,5 @@ Route::controllers([
 
 Route::model('searches', 'App\Search');
 Route::resource('searches', 'SearchController');
-Route::get('searches/{searches}/results', ['as' => 'searches.results', 'uses' => 'SearchController@results']);
-Route::get('searches/{searches}/results/download', ['as' => 'searches.results.download', 'uses' => 'SearchController@resultsDownload']);
+
+Route::get('searches/{searches}/download', ['as' => 'searches.download', 'uses' => 'SearchController@resultsDownload']);

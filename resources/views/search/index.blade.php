@@ -42,17 +42,7 @@
 						</p>
 					</div>
 					<div class="col-sm-4 text-right">
-						<a class="btn btn-default" href="{{ route('searches.results', ['searches' => $search->id]) }}">View Results <i class="fa fa-eye"></i></a>
-						<a class="btn btn-default" href="{{ route('searches.results.download', ['searches' => $search->id]) }}">Download <i class="fa fa-download"></i></a>
-
-						{{-- <a class="btn btn-success" href="{{ route('searches.run', ['searches' => $search->id]) }}" title="Run Now"><span class="sr-only">Run Now</span><i class="fa fa-refresh"></i></a> --}}
-
-						{!! Form::open(['route' => ['searches.destroy', $search->id], 'method' => 'delete', 'style' => 'display:inline;']) !!}
-							<button type="submit" class="btn btn-danger">
-								<span class="sr-only">Delete</span>
-								<i class="fa fa-trash-o fa-lg"></i>
-							</button>
-						{!! Form::close() !!}
+						<a class="btn btn-default" href="{{ route('searches.show', ['searches' => $search->id]) }}">View <i class="fa fa-eye"></i></a>
 					</div>
 				</div>
 			</div>

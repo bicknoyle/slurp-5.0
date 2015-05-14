@@ -74,7 +74,14 @@ class SearchController extends Controller {
 	 */
 	public function show(SearchRequest $request, Search $search)
 	{
-		return Redirect::route('searches.index');
+		$daily_results = $search->results()
+			->select(DB::raw('DATE(message_created_at) date'), DB::raw('count(*) count'))
+			->groupBy('date')
+			->orderBy('date')
+			->get()
+		;
+
+		return View::make('search.show', compact(['search', 'daily_results']));
 	}
 
 	/**
