@@ -3,6 +3,7 @@
 use Auth;
 use Redirect;
 use Socialize;
+use Session;
 use View;
 
 class HomeController extends Controller {
@@ -57,7 +58,9 @@ class HomeController extends Controller {
 			'twitter_secret' => $account->tokenSecret
 		]);
 
-		return Redirect::route('home');
+		Session::flash('success', 'Twitter account connected.');
+
+		return Redirect::route('searches.index');
 	}
 
 }

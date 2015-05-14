@@ -6,12 +6,9 @@
 
 	@if(!Auth::user()->twitter_token)
 	<div class="panel panel-success">
-		<div class="panel-heading">Success</div>
+		<div class="panel-heading"><strong>Welcome!</strong></div>
 		<div class="panel-body">
-			<p>Thanks for checking out Slurp! Before creating searches we need you to connect your Twitter account.</p>
-			<ul class="list-unstyled">
-				<li><a href="{{ route('connect.twitter') }}" class="btn btn-default"><i class="fa fa-twitter"></i> Connect Twitter Account</a></li>
-			</ul>
+			<p>Thanks for checking out Slurp! Before getting started, you'll need to <a href="{{ route('connect.twitter') }}">connect your Twitter account</a>.</p>
 		</div>
 	</div>
 	@else
