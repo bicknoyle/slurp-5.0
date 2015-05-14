@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use View;
+
 class WelcomeController extends Controller {
 
 	/*
@@ -30,7 +32,7 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('welcome');
+		return View::make('welcome');
 	}
 
 }
