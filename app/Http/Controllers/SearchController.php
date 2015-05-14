@@ -157,7 +157,6 @@ class SearchController extends Controller {
 		$filename = $search->title.' - '.Carbon::now().'.csv';
 
 	    $headers = [
-			'Content-type'        => 'application/csv',
 			'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
 			'Content-type'        => 'text/csv',
 			'Content-Disposition' => 'attachment; filename="'.$filename.'"',
