@@ -66,7 +66,7 @@ class SearchController extends Controller {
 	}
 
 	/**
-	 * Display the specified resource (currently just redirects back to the searches.index).
+	 * Display the specified resource.
 	 *
 	 * @param  SearchRequest $request
 	 * @param  Search $search
