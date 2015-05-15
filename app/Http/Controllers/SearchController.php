@@ -82,7 +82,7 @@ class SearchController extends Controller {
 		;
 
 		$json_results = $search->results()
-			->select(DB::raw('UNIX_TIMESTAMP(message_created_at) timestamp'), DB::raw('count(*) count'))
+			->select(DB::raw('UNIX_TIMESTAMP(DATE_FORMAT(message_created_at,"%Y-%m-%d %H:00:00")) timestamp'), DB::raw('count(*) count'))
 			->groupBy('timestamp')
 			->orderBy('timestamp')
 			->get()
