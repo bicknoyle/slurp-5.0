@@ -74,13 +74,9 @@ class SearchController extends Controller {
 	 */
 	public function show(SearchRequest $request, Search $search)
 	{
-		$daily_results = $search->results()
-			->select(DB::raw('DATE(message_created_at) date'), DB::raw('count(*) count'))
-			->groupBy('date')
-			->orderBy('date')
-			->get()
-		;
-
+		// Truncate to the hour and grab timestamp. This lessens the results
+		// sent to the browser and allows us to set the date correct
+		// (considering TZ) on the view.
 		$json_results = $search->results()
 			->select(DB::raw('UNIX_TIMESTAMP(DATE_FORMAT(message_created_at,"%Y-%m-%d %H:00:00")) timestamp'), DB::raw('count(*) count'))
 			->groupBy('timestamp')
@@ -88,7 +84,7 @@ class SearchController extends Controller {
 			->get()
 		;
 
-		return View::make('search.show', compact(['search', 'daily_results', 'json_results']));
+		return View::make('search.show', compact(['search', 'json_results']));
 	}
 
 	/**
@@ -182,12 +178,17 @@ class SearchController extends Controller {
 
 			// print rows
 			foreach ($results as $result) {
+				$created_at = new Carbon($result->message_created_at);
+
+				// TODO - set this dynamically
+				$created_at->tz('America/Detroit');
+
 				fputcsv($FH, [
 					$result->message_id,
 					$result->message_user_id,
 					$result->message_screen_name,
 					$result->message_text,
-					$result->message_created_at,
+					$created_at,
 					'https://www.twitter.com/'.$result->message_screen_name.'/status/'.$result->message_id,
 				]);
 			}

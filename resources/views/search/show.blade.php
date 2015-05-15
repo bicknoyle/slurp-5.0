@@ -1,5 +1,10 @@
 @extends('app')
 
+@section('css')
+@parent
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+@stop
+
 @section('content')
 
 <p>
@@ -9,44 +14,75 @@
 <h2>{{ $search->title }}</h2>
 
 <p class="lead">
-	<strong>Terms:</strong>
-	{{ $search->terms }}
+	<strong>Query:</strong>
+	{{ $search->terms }}<br>
+	<strong>Tweets:</strong>
+	{{ $search->results()->count() }}
 </p>
 
-<div class="jumbotron">
-	<h2>Wouldn't a graph look nice here?</h2>
-	<br>
-	<br>
-	<br>
-	<br>
-</div>
+<p class="lead">
+</p>
 
-<table class="table table-striped table-bordered">
-	<thead>
-		<tr>
-			<th>Date</th>
-			<th>Count</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach($daily_results as $result)
-		<tr>
-			<th scope="row">{{ $result->date }}</th>
-			<td>{{ $result->count }}</td>
-		</tr>
-		@endforeach
-	</tbody>
-</table>
+<div id="results-chart" style="height: 250px;"></div>
 
 <p>
-	<a class="btn btn-default" href="{{ route('searches.download', ['searches' => $search->id]) }}"><i class="fa fa-download fa-fw"></i> Download Results</a>
+	<a id="results-download" class="btn btn-default" href="{{ route('searches.download', ['searches' => $search->id]) }}"><i class="fa fa-download fa-fw"></i> Download Results</a></br>
+	<small><em>Note: All times in downloaded data are Eastern</em></small>
 </p>
 @stop
 
 @section('js')
+@parent
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
 <script>
-	var json_results = {!! $json_results !!};
+	/**
+	 * 1) Group by date
+	 * 2) Put it in a format morris.js likes
+	 */
+	var json_results = {!! $json_results !!}
+	  , tmp = {}
+	  , results = []
+	;
 
-	console.log(json_results)
+	for(var i in json_results) {
+		var row = json_results[i]
+		  , date = moment(row.timestamp * 1000).format('YYYY-MM-DD')
+		;
+
+		if ('undefined' === typeof tmp[date]) {
+			tmp[date] = row.count;
+		}
+		else {
+			tmp[date] = tmp[date] + row.count;
+		}
+	}
+
+	for(var i in tmp) {
+		results.push({
+			'date': i,
+			'count': tmp[i]
+		});
+	}
+
+	new Morris.Line({
+		// ID of the element in which to draw the chart.
+		element: 'results-chart',
+		// Chart data records -- each entry in this array corresponds to a point on
+		// the chart.
+		data: results,
+		// The name of the data record attribute that contains x-values.
+		xkey: 'date',
+		// A list of names of data record attributes that contain y-values.
+		ykeys: ['count'],
+		// Labels for the ykeys -- will be displayed when you hover over the
+		// chart.
+		labels: ['Tweets'],
+
+		xLabels: 'day',
+
+		hideHover: true
+	});
 </script>
 @stop
