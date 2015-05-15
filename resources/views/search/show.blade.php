@@ -42,3 +42,11 @@
 	<a class="btn btn-default" href="{{ route('searches.download', ['searches' => $search->id]) }}"><i class="fa fa-download fa-fw"></i> Download Results</a>
 </p>
 @stop
+
+@section('js')
+<script>
+	var json_results = {!! $json_results !!};
+
+	console.log(json_results)
+</script>
+@stop

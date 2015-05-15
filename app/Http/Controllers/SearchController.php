@@ -81,7 +81,14 @@ class SearchController extends Controller {
 			->get()
 		;
 
-		return View::make('search.show', compact(['search', 'daily_results']));
+		$json_results = $search->results()
+			->select(DB::raw('UNIX_TIMESTAMP(message_created_at) timestamp'), DB::raw('count(*) count'))
+			->groupBy('timestamp')
+			->orderBy('timestamp')
+			->get()
+		;
+
+		return View::make('search.show', compact(['search', 'daily_results', 'json_results']));
 	}
 
 	/**
