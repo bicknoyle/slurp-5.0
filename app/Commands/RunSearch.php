@@ -96,7 +96,7 @@ class RunSearch extends Command implements SelfHandling {
 				]);
 
 				$result->extra = [
-					'entities' => $status['entities']
+					'entities' => array_get($status, 'entities'),
 				];
 
 				$search->results()->save($result);
